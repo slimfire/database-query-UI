@@ -2,11 +2,11 @@
 <html>
   <head>
     <title>DB Query UI</title>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/lib/bootstrap.min.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="/lib/jquery-ui-timepicker-addon.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css">
     <link rel="stylesheet" type="text/css" href="/styles/custom.style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" rel="stylesheet" />
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
     <script type="text/javascript" src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -15,43 +15,43 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/i18n/jquery-ui-i18n.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.1/i18n/jquery-ui-timepicker-uk.js"></script>
     <script type="text/javascript" src="/lib/jquery-ui-timepicker-addon.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
 
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $(".attributes").select2({
+        placeholder: "Select attributes (Default: All are selected)"
+      });
+    })
+    </script>
     <script type="text/x-handlebars-template" id="query-template">
         <div class="row">
-            <div class="col-md-3">
-                <div class="dropdown">
-                  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    Attributes
-                    <span class="caret"></span>
-                  </button>
-                  <select class="dropdown-menu" aria-labelledby="dropdownMenu1" data-bind="options: attributes, selectedOptions: selectedItems" size="11" multiple="true"></select>
-                </div>
+            <div class="col-md-8">
+              <select class="attributes" data-bind="options: attributes, selectedOptions: selectedItems" style="width:100%"multiple="true" ></select>
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" id="startDate" data-bind="value: startDate" placeholder="Start Date" />
+                <input type="text" class="form-control" id="endDate" data-bind="value: endDate" placeholder="End Date" />
             </div>
         </div>
-        <br>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="input-group">
                   <span class="input-group-addon" id="basic-addon3">Direction</span>
                   <input type="number" min="0" max="1" data-bind="value: directionMin" class="form-control" placeholder="Minimum" id="basic-url" aria-describedby="basic-addon3">
                   <input type="number" min="0" max="1" data-bind="value: directionMax" class="form-control" placeholder="Maximum" id="basic-url" aria-describedby="basic-addon3">
                 </div>
             </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="input-group">
                   <span class="input-group-addon" id="basic-addon3">Sum of Bytes</span>
                   <input type="number" min="0" data-bind="value: sumOfBytesMin" class="form-control" placeholder="Minimum" id="basic-url" aria-describedby="basic-addon3">
                   <input type="number" data-bind="value: sumOfBytesMax" class="form-control" placeholder="Maximum" id="basic-url" aria-describedby="basic-addon3">
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="input-group">
                   <span class="input-group-addon" id="basic-addon3">Sum of Packets</span>
                   <input type="number" min="0" data-bind="value: sumOfPacketsMin" class="form-control" placeholder="Minimum" id="basic-url" aria-describedby="basic-addon3">
@@ -61,11 +61,7 @@
         </div>
         <br>
         <div class="row">
-            <input type="text" id="startDate" data-bind="value: startDate" placeholder="Start Date"/>
-            <input type="text" id="endDate" data-bind="value: endDate" placeholder="End Date"/>
-        </div>
-        <div class="row">
-            <button type="button" class="btn btn-info" data-bind="click: query">Query!</button>
+            <button type="button" class="btn btn-default" data-bind="click: query">Query!</button>
         </div>
     </script>
 
