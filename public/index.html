@@ -70,7 +70,7 @@
       <table class="table table-striped">
         <thead>
             <tr>
-              <% _.each(attributes, function(attribute){ %>
+              <% _.each(attributes, function(attribute){ if(typeof(attribute) == 'function'){ attribute = attribute()}%>
                 <td><%-attribute%></td>
               <% }); %>
             </tr>
