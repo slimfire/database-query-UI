@@ -2,3 +2,10 @@ body{
 	text-align: center;
 	padding: 2%;
 }
+.input-group .form-control{
+	z-index: 0;
+}
+
+.col-md-4 #startDate, .col-md-4 #endDate{
+	margin-bottom: 5px;
+}
