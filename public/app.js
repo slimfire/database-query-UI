@@ -153,8 +153,17 @@ function appViewModel(){
 					this.render();
 				},
 				render : function(){
+					var attributes;
 					console.log("selected attributes : ", self.selectedItems());
-					$('#result-container').html(this.template({data : self.data(), attributes : self.selectedItems()}));
+					if(self.selectedItems().length == 0)
+					{
+						attributes = self.attributes();
+					}
+					else
+					{
+						attributes = self.selectedItems();
+					}
+					$('#result-container').html(this.template({data : self.data(), attributes : attributes}));
 					return this;
 				}
 			});
@@ -174,56 +183,3 @@ function appViewModel(){
 	});
 }
 ko.applyBindings(new appViewModel());
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var where = {};
-var select = '';
-var select = function(attributes){
-	var self = this;
-	self.timestamp = ko.observable(attributes.timestamp);
-	self.source_vn = ko.observable(attributes.source_vn);
-	self.source_ip = ko.observable(attributes.source_ip);
-	self.source_port = ko.observable(attributes.source_port);
-	self.dirction_ingress = ko.observable(attributes.dirction_ingress);
-	self.destination_vn = ko.observable(attributes.destination_vn);
-	self.destination_ip = ko.observable(attributes.destination_ip);
-	self.destination_port = ko.observable(attributes.destination_port);
-	self.protocol = ko.observable(attributes.protocol);
-	self.sum_bytes = ko.observable(attributes.sum_bytes);
-	self.sum_packets = ko.observable(attributes.sum_packets);
-};
-
-var Instance = function(instance, self){
-	self.timestamp = ko.observable(instance.timestamp);
-	self.source_vn = ko.observable(instance.source_vn);
-	self.source_ip = ko.observable(instance.source_ip);
-	self.source_port = ko.observable(instance.source_port);
-	self.dirction_ingress =ko.observable(instance.dirction_ingress);
-	self.destination_vn = ko.observable(instance.destination_vn);
-	self.destination_ip = ko.observable(instance.destination_ip);
-	self.destination_port = ko.observable(instance.destination_port);
-	self.protocol = ko.observable(instance.protocol);
-	self.sum_bytes = ko.observable(instance.sum_bytes);
-	self.sum_packets = ko.observable(instance.sum_packets);
-};
-
