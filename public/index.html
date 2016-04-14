@@ -24,6 +24,7 @@
       $(".attributes").select2({
         placeholder: "Select attributes (Default: All are selected)"
       });
+      $(".opCode").select2({width:"100%"});
     })
     </script>
     <script type="text/x-handlebars-template" id="query-template">
@@ -32,36 +33,67 @@
               <select class="attributes" data-bind="options: attributes, selectedOptions: selectedItems" style="width:100%"multiple="true" ></select>
             </div>
             <div class="col-md-4">
-                <input type="text" class="form-control" id="startDate" data-bind="value: startDate" placeholder="Start Date" />
-                <input type="text" class="form-control" id="endDate" data-bind="value: endDate" placeholder="End Date" />
+                <div class="input-group">
+                  <span class="input-group-addon" id="label">Date/Time</span>
+                  <input type="text" class="form-control" id="startDate" data-bind="value: startDate" placeholder="Start Date" />
+                  <input type="text" class="form-control" id="endDate" data-bind="value: endDate" placeholder="End Date" />
+                  <span class="input-group-addon" id="basic-addon3"><button type="button" data-bind="click: function(){addToQuery('timestamp')}" class="btn btn-default btn-block">Add</button></span>
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-4">
                 <div class="input-group">
-                  <span class="input-group-addon" id="basic-addon3">Direction</span>
+                  <span class="input-group-addon" id="label">Direction</span>
                   <input type="number" min="0" max="1" data-bind="value: directionMin" class="form-control" placeholder="Minimum" id="basic-url" aria-describedby="basic-addon3">
                   <input type="number" min="0" max="1" data-bind="value: directionMax" class="form-control" placeholder="Maximum" id="basic-url" aria-describedby="basic-addon3">
+                  <span class="input-group-addon" id="basic-addon3"><button type="button" data-bind="click: function(){addToQuery('dirction_ingress')}" class="btn btn-default btn-block">Add</button></span>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="input-group">
-                  <span class="input-group-addon" id="basic-addon3">Sum of Bytes</span>
+                  <span class="input-group-addon" id="label">Sum of Bytes</span>
                   <input type="number" min="0" data-bind="value: sumOfBytesMin" class="form-control" placeholder="Minimum" id="basic-url" aria-describedby="basic-addon3">
                   <input type="number" data-bind="value: sumOfBytesMax" class="form-control" placeholder="Maximum" id="basic-url" aria-describedby="basic-addon3">
+                  <span class="input-group-addon" id="basic-addon3"><button type="button" data-bind="click: function(){addToQuery('sum_bytes')}" class="btn btn-default btn-block">Add</button></span>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="input-group">
-                  <span class="input-group-addon" id="basic-addon3">Sum of Packets</span>
+                  <span class="input-group-addon" id="label">Sum of Packets</span>
                   <input type="number" min="0" data-bind="value: sumOfPacketsMin" class="form-control" placeholder="Minimum" id="basic-url" aria-describedby="basic-addon3">
                   <input type="number" data-bind="value: sumOfPacketsMax" class="form-control" placeholder="Maximum" id="basic-url" aria-describedby="basic-addon3">
+                  <span class="input-group-addon" id="basic-addon3"><button type="button" data-bind="click: function(){addToQuery('sum_packets')}" class="btn btn-default btn-block">Add</button></span>
                 </div> 
             </div>
         </div>
         <br>
+
         <div class="row">
+            <div class="col-md-12">
+              <div class="input-group" style="width:100%">
+                <span class="input-group-addon" data-bind="text: queryValues()[0].attribute()" id="basic-addon3"></span>
+                <select class="opCode" data-bind="value: firstOp">
+                  <option value="AND">AND</option>
+                  <option value="OR">OR</option>
+                </select>
+                <span class="input-group-addon" data-bind="text: queryValues()[1].attribute()" id="basic-addon3"></span>
+                <select class="opCode" data-bind="value: secondOp">
+                  <option value="AND">AND</option>
+                  <option value="OR">OR</option>
+                </select>
+                <span class="input-group-addon" data-bind="text: queryValues()[2].attribute()" id="basic-addon3"></span>
+                <select class="opCode" data-bind="value: thirdOp">
+                  <option value="AND">AND</option>
+                  <option value="OR">OR</option>
+                </select>
+                <span class="input-group-addon" data-bind="text: queryValues()[3].attribute()" id="basic-addon3"></span>
+              </div>
+            </div>
+            <br>
+            <br>
             <button type="button" class="btn btn-default" data-bind="click: query">Query</button>
+            <button type="button" class="btn btn-default" data-bind="click: clearQueryBuild">Clear  </button>
         </div>
     </script>
 
