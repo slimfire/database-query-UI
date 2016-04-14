@@ -6,6 +6,29 @@ body{
 	z-index: 0;
 }
 
+.input-group .hasDatepicker.form-control{
+	z-index: 0;
+}
+
 .col-md-4 #startDate, .col-md-4 #endDate{
-	margin-bottom: 5px;
+	/*margin-bottom: 5px;*/
+}
+
+.row{
+	margin-bottom: 1%;
+}
+
+.row .col-md-12{
+	margin-bottom: 2%;
+}
+
+#label {
+    min-width:123px;
+    text-align:left;
+}
+
+.input-group .input-group-addon{
+	width: 25%;
+	height: 5%;
+	margin: 1%;
 }
