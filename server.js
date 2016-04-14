@@ -14,7 +14,7 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended: false}));
 
 server.post('/api/traffic', function(req, res){
-	console.log(req.body);
+	console.dir(req.body, {colors : true, depth: null});
 	//store request params
 	var select = req.body.select;
 	var where = req.body.where;
@@ -24,9 +24,6 @@ server.post('/api/traffic', function(req, res){
 	for (var i = 0; i < select.length; i++) {
 		queryStatement += select[i] + ' ';
 	};
-
-	//remove Empty Fields
-	where = util.removeEmptyFields(where);
 	console.log("after :: ", where)
 
 	//run query
