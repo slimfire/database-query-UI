@@ -106,12 +106,6 @@ function getTimeRange(){
 var ResultView;
 function appViewModel(){
 	var self = this;
-	self.queryValues = ko.observableArray([
-			{attribute : ko.observable('')},
-			{attribute : ko.observable('')},
-			{attribute : ko.observable('')},
-			{attribute : ko.observable('')}
-		]);
 	self.attributes = ko.observableArray([]);
 	self.selectedItems = ko.observableArray([]);
 	self.data = ko.observableArray([]);
@@ -124,71 +118,114 @@ function appViewModel(){
 	self.sumOfPacketsMin = ko.observable();
 	self.sumOfPacketsMax = ko.observable();
 	//on query building section
+	self.whereAttribute = ko.observable('');
 	self.firstOp = ko.observable('');
 	self.secondOp = ko.observable('');
 	self.thirdOp = ko.observable('');
 	var currentIndex = 0;
-	self.clearQueryBuild = function(){
-		self.queryValues([
-			{attribute : ko.observable('')},
-			{attribute : ko.observable('')},
-			{attribute : ko.observable('')},
-			{attribute : ko.observable('')}
-		]);
-	}
-	self.addToQuery = function(attribute){
-		for (var i = 0; i <= self.queryValues().length - 1; i++) {
-			console.log(self.queryValues()[i].attribute())
-			if(self.queryValues()[i].attribute() == '')
-			{
-				currentIndex = i;
-				break;
-			}
-		};
-		console.log(currentIndex)
-		if(attribute == 'timestamp')
-		{
-			self.queryValues()[currentIndex].attribute(attribute);
-			self.queryValues()[currentIndex]['timestamp'] = {};
-			self.queryValues()[currentIndex]['timestamp']['$gte'] = new Date(self.startDate()).getTime();
-			self.queryValues()[currentIndex]['timestamp']['$lte'] = new Date(self.endDate()).getTime();
-		}
-		else if(attribute == 'dirction_ingress')
-		{
-			self.queryValues()[currentIndex].attribute(attribute);
-			self.queryValues()[currentIndex]['dirction_ingress'] = {};
-			self.queryValues()[currentIndex]['dirction_ingress']['$gte'] = self.directionMin();
-			self.queryValues()[currentIndex]['dirction_ingress']['$lte'] = self.directionMax();
-		}
-		else if(attribute == 'sum_bytes')
-		{
-			self.queryValues()[currentIndex].attribute(attribute);
-			self.queryValues()[currentIndex]['sum_bytes'] = {};
-			self.queryValues()[currentIndex]['sum_bytes']['$gte'] = self.sumOfBytesMin();
-    		self.queryValues()[currentIndex]['sum_bytes']['$lte'] = self.sumOfBytesMax();
-		}
-		else if(attribute == 'sum_packets')
-		{
-    		self.queryValues()[currentIndex].attribute(attribute);
-    		self.queryValues()[currentIndex]['sum_packets'] = {};
-			self.queryValues()[currentIndex]['sum_packets']['$gte'] = self.sumOfPacketsMin();
-			self.queryValues()[currentIndex]['sum_packets']['$lte'] = self.sumOfPacketsMax();
-		}
-		
-		console.log(attribute, self.queryValues())
-	}
-	self.query = function(){
-		console.log(self.selectedItems());
-		console.log(self.startDate(), " <<<--->>> ", self.endDate())
-		var params = {
-	    	select : self.selectedItems(),
-	    	where : {}
-	    }
 
-	    params.where[mapOpCode(self.secondOp())] = [{}, {}];
-		params.where[mapOpCode(self.secondOp())][0][mapOpCode(self.firstOp())] = [self.queryValues()[0], self.queryValues()[1]];
-		params.where[mapOpCode(self.secondOp())][1][mapOpCode(self.thirdOp())] = [self.queryValues()[2], self.queryValues()[3]];
-		console.log(params.where)
+	//init
+	getTimeRange();
+	console.log(self.attributes())
+	init(function(attributes){
+		for (var i = 0; i < attributes.length; i++) {
+			attributes[i] = ko.observable(attributes[i]);
+		};
+		self.attributes(attributes);
+	});
+
+	var mapOpCode = function(opCode){
+		if(opCode == 'AND')
+			return '$and';
+		if(opCode == 'OR')
+			return '$or';
+	}
+
+	self.queryResponseHandler = function(elements){
+		var form = $("#bookForm").serializeArray();
+
+		//remove template 
+		form.pop();
+		form.pop();
+		form.pop();
+		form.pop();
+
+		//process data
+		var where = [{}, {}, {}, {}];
+		var formIndex = 0;
+		for (var i = 0; i < form.length/4; i++) {
+			where[i]['attribute'] = form[formIndex+0].value;
+			where[i]['minimum'] = form[formIndex+1].value;
+			where[i]['maximum'] = form[formIndex+2].value;
+			where[i]['opCode'] = form[formIndex+3].value;
+			if(where[i].attribute == 'timestamp')
+			{
+				if(where[i].minimum != '')
+				{
+					where[i].minimum = new Date(where[i].minimum).getTime();
+				}
+				if(where[i].maximum != '')
+				{
+					where[i].maximum = new Date(where[i].maximum).getTime();
+				}
+			}
+			formIndex += 4
+		};
+
+
+
+		var mapBound = function(bound){
+			if(bound == 'maximum')
+				return '$lte';
+			if(bound == 'minimum')
+				return '$gte';
+			else
+				return undefined;
+		}
+
+		var convertMinMaxSymbols = function(where){
+			var query = [];
+			for (var i = 0; i < where.length; i++) {
+				query.push({});
+				query[i][where[i].attribute] = {};
+				query[i][where[i].attribute][mapBound('maximum')] = where[i].maximum;
+				query[i][where[i].attribute][mapBound('minimum')] = where[i].minimum;
+			};
+			return query;
+		}
+
+		var buildMongoDBWhereClause = function(where){
+			var bounds = convertMinMaxSymbols(where);
+
+			//build MongoDB where clause
+			var mongoWhere = {};
+			var firstOpCode = mapOpCode(where[0].opCode) || '$or';
+			var middleOpCode = mapOpCode(where[1].opCode) || '$and';
+			var thirdOpCode = mapOpCode(where[2].opCode) || '$or';
+			mongoWhere[middleOpCode] = [];
+
+			var firstHalf = {};
+			firstHalf[firstOpCode] = [{}, {}];
+			firstHalf[firstOpCode][0] = bounds[0];
+			firstHalf[firstOpCode][1] = bounds[1];
+
+			var secondHalf = {};
+			secondHalf[thirdOpCode] = [{}, {}];
+			secondHalf[thirdOpCode][0] = bounds[2];
+			secondHalf[thirdOpCode][1] = bounds[3];
+
+			mongoWhere[middleOpCode].push(firstHalf);
+			mongoWhere[middleOpCode].push(secondHalf);
+			// console.log(mongoWhere)
+
+			return mongoWhere;
+		}
+
+		var params = {
+			select : self.selectedItems(),
+			where : buildMongoDBWhereClause(where)
+		};
+
 		fetch(params.select, params.where, function(data){
 			self.data(data);
 			ResultView = Backbone.View.extend({
@@ -217,23 +254,6 @@ function appViewModel(){
 			resultView.render();
 		});
 	}
-
-	//init
-	getTimeRange();
-	console.log(self.attributes())
-	init(function(attributes){
-		for (var i = 0; i < attributes.length; i++) {
-			attributes[i] = ko.observable(attributes[i]);
-		};
-		self.attributes(attributes);
-	});
 }
 
-
-var mapOpCode = function(opCode){
-	if(opCode == 'AND')
-		return '$and';
-	if(opCode == 'OR')
-		return '$or';
-}
 ko.applyBindings(new appViewModel());
