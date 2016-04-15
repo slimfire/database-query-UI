@@ -24,7 +24,9 @@ server.post('/api/traffic', function(req, res){
 	for (var i = 0; i < select.length; i++) {
 		queryStatement += select[i] + ' ';
 	};
-	console.log("after :: ", where)
+	where = util.removeEmptyFields(where);
+	console.log("after :: ")
+	console.dir(where, {colors : true, depth: null});
 
 	//run query
 	var query = model.find(where, {_id:0})
