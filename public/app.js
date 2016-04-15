@@ -224,7 +224,12 @@ function appViewModel(){
 		var params = {
 			select : self.selectedItems(),
 			where : buildMongoDBWhereClause(where)
-		};
+		};	
+
+		//if the there is no item selected execute, override where to {}
+		if((form.length == 4) && (form[1].value == '') && (form[2].value == '')){
+			params.where = {} 
+		}
 
 		fetch(params.select, params.where, function(data){
 			self.data(data);
