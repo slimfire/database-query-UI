@@ -25,6 +25,7 @@ server.post('/api/traffic', function(req, res){
 		queryStatement += select[i] + ' ';
 	};
 	where = util.removeEmptyFields(where);
+	where = util.removeEmptyFields(where);
 	console.log("after :: ")
 	console.dir(where, {colors : true, depth: null});
 
