@@ -44,3 +44,7 @@ body{
 .queryBtn{
 	text-align: center;
 }
+
+.col-md-1{
+	padding-left: 4%; 
+}
