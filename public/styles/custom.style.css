@@ -32,3 +32,15 @@ body{
 	height: 5%;
 	margin: 1%;
 }
+
+.row .selectSelection{
+	margin-bottom: 1%;
+}
+
+.row .selectLabel{
+	text-indent: 2%;
+}
+
+.queryBtn{
+	text-align: center;
+}
