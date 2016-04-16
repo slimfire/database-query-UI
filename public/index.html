@@ -33,15 +33,17 @@
     </script>
     <script type="text/javascript" src="validation.js"></script>
     <script type="text/x-handlebars-template" id="query-template">
-        <div class="row">
-            <label class="col-xs-1 control-label selectLabel">Select</label>
-            <div class="col-xs-9 selectSelection">
-              <select class="attributes" data-bind="options: attributes, selectedOptions: selectedItems" style="width:100%"multiple="true" ></select>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-xs-2 control-label selectLabel">Select</label>
+                <div class="col-xs-8 selectSelection">
+                  <select class="attributes" data-bind="options: attributes, selectedOptions: selectedItems" style="width:100%"multiple="true" ></select>
+                </div>
             </div>
-        </div>
+        </form>
         <form id="bookForm" data-bind="submit: queryResponseHandler" class="form-horizontal">
             <div class="form-group">
-                <label class="col-xs-1 control-label">Where</label>
+                <label class="col-xs-2 control-label">Where</label>
                 <div class="col-xs-2 whereSelection">
                     <select class="form-control attribute" name="where[0].attribute" data-bind="value: whereAttribute">
                       <option value="timestamp">Timestamp</option>
@@ -74,14 +76,14 @@
                       <option value="OR">OR</option>
                     </select>
                 </div>
-                <div class="col-md-1">
+                <div class="col-xs-1">
                     <button type="button" class="btn btn-default addButton"><i class="fa fa-plus"></i></button>
                 </div>
             </div>
 
             <!-- The template for adding new field -->
             <div class="form-group hide" id="bookTemplate">
-                <div class="col-xs-2 col-xs-offset-1">
+                <div class="col-xs-2 col-xs-offset-2">
                     <select class="form-control attribute" name="attribute" data-bind="value: firstOp">
                       <option value="dirction_ingress">Direction</option>
                       <option value="sum_bytes">Sum of Bytes</option>
@@ -101,7 +103,7 @@
                       <option value="OR">OR</option>
                     </select>
                 </div>
-                <div class="col-md-1">
+                <div class="col-xs-1">
                     <button type="button" class="btn btn-default removeButton"><i class="fa fa-minus"></i></button>
                 </div>
             </div>
