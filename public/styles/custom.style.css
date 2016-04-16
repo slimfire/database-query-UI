@@ -45,6 +45,6 @@ body{
 	text-align: center;
 }
 
-.col-md-1{
-	padding-left: 4%; 
+.col-xs-9{
+	width: 74%; 
 }
