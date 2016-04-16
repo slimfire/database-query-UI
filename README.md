@@ -9,7 +9,7 @@ Below is a simple snippet of result for a query whose selected attributes are ti
 
 <h1 align="center">
   <br>
-  <a href="http://juniper-yohannes.herokuapp.com"><img src="https://raw.githubusercontent.com/slimfire/personal-website/master/juniper1.png" alt="Juniper Networks Exercise"></a>
+  <a href="http://juniper-yohannes.herokuapp.com"><img src="https://raw.githubusercontent.com/slimfire/personal-website/master/junper2.png" alt="Juniper Networks Exercise"></a>
   <br>
 </h1>
 ## Dependencies
