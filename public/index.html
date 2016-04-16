@@ -58,7 +58,7 @@
                     <!--/ko-->
 
                     <!-- ko if: whereAttribute() != 'timestamp' -->
-                        <input type="number" name="where[0].minimum" min="0" max="1" data-bind="value: directionMin" class="form-control" placeholder="Minimum" id="basic-url" aria-describedby="basic-addon3">
+                        <input type="number" name="where[0].minimum" data-bind="value: directionMin" class="form-control" placeholder="Minimum" id="basic-url" aria-describedby="basic-addon3">
                     <!--/ko-->            
                 </div>
                 <div class="col-xs-2">
@@ -67,7 +67,7 @@
                     <!-- /ko -->
 
                     <!-- ko if: whereAttribute() != 'timestamp' -->
-                        <input type="number" min="0" max="1"  name="where[0].maximum" data-bind="value: directionMax" class="form-control" placeholder="Maximum" id="basic-url" aria-describedby="basic-addon3">
+                        <input type="number"  name="where[0].maximum" data-bind="value: directionMax" class="form-control" placeholder="Maximum" id="basic-url" aria-describedby="basic-addon3">
                     <!-- /ko -->
                 </div>
                 <div class="col-xs-2">
@@ -91,10 +91,10 @@
                     </select>
                 </div>
                 <div class="col-xs-2">
-                    <input type="number" name="minimum" min="0" max="1" data-bind="value: directionMin" class="form-control" placeholder="Minimum" id="basic-url" aria-describedby="basic-addon3">
+                    <input type="number" name="minimum" data-bind="value: directionMin" class="form-control" placeholder="Minimum" id="basic-url" aria-describedby="basic-addon3">
                 </div>
                 <div class="col-xs-2">
-                    <input type="number" name="maximum" min="0" max="1" data-bind="value: directionMax" class="form-control" placeholder="Maximum" id="basic-url" aria-describedby="basic-addon3">
+                    <input type="number" name="maximum" data-bind="value: directionMax" class="form-control" placeholder="Maximum" id="basic-url" aria-describedby="basic-addon3">
                 </div>
                 <div class="col-xs-2">
                     <select class="form-control opCode" name="opCode" data-bind="value: thirdOp">
