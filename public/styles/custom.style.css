@@ -1,6 +1,8 @@
 body{
 	text-align: center;
 	padding: 2%;
+	padding-right: 10%;
+	padding-left: 10%; 
 }
 .input-group .form-control{
 	z-index: 0;
@@ -33,18 +35,6 @@ body{
 	margin: 1%;
 }
 
-.row .selectSelection{
-	margin-bottom: 1%;
-}
-
-.row .selectLabel{
-	text-indent: 2%;
-}
-
 .queryBtn{
 	text-align: center;
-}
-
-.col-xs-9{
-	width: 74%; 
 }
